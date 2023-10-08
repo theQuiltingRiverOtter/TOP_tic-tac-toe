@@ -122,6 +122,17 @@ const checkForWin = () => {
   }
 };
 
+const checkForTies = () => {
+  for (let row of Gameboard.return_gameBoard()) {
+    for (let cell of row) {
+      if (cell == "") {
+        return false;
+      }
+    }
+  }
+  return true;
+};
+
 const displayController = (function () {
   const gameboardContainer = document.querySelector("#gameboard_container");
   const mark = (i, j) => {
@@ -133,8 +144,15 @@ const displayController = (function () {
     player1.setTurn();
     player2.setTurn();
     displayGameboard();
-    if (checkForWin() !== false) {
-      console.log(checkForWin().displayName(), "wins!");
+    winner = checkForWin();
+    if (winner !== false) {
+      winner.incrementScore();
+      console.log(
+        `${winner.displayName()} wins! Score: ${winner.displayScore()}`
+      );
+    }
+    if (checkForTies()) {
+      console.log("No one wins");
     }
   };
 
